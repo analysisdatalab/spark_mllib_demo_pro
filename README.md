@@ -14,22 +14,22 @@
 4、使用模型进行预测  
 
 ## 监督学习（分类算法）  
-*k-最近邻法（k-nearest neighbor, kNN）  
-*决策树分类法  
-*朴素贝叶斯分类算法（native Bayesian classifier）  
-*支持向量机（SVM）的分类器  
-*神经网络法  
-*模糊分类法  
+k-最近邻法（k-nearest neighbor, kNN）  
+决策树分类法  
+朴素贝叶斯分类算法（native Bayesian classifier）  
+支持向量机（SVM）的分类器  
+神经网络法  
+模糊分类法  
 
 
 ## 无监督学习（聚类算法）  
-*K均值（K-means clustering）聚类算法  
-*K-MEDOIDS算法  
-*CLARANS算法  
-*BIRCH算法  
-*CURE算法  
-*CHAMELEON算法等  
-*基于网格的方法  
+K均值（K-means clustering）聚类算法  
+K-MEDOIDS算法  
+CLARANS算法  
+BIRCH算法  
+CURE算法  
+CHAMELEON算法等  
+基于网格的方法  
 
 
 
