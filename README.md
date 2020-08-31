@@ -13,7 +13,7 @@
 3、将提取的特征工程数据交给算法得到模型  
 4、使用模型进行预测  
 
-**监督学习（分类算法）**
+## 监督学习（分类算法）  
 *k-最近邻法（k-nearest neighbor, kNN）  
 *决策树分类法  
 *朴素贝叶斯分类算法（native Bayesian classifier）  
@@ -22,7 +22,7 @@
 *模糊分类法  
 
 
-**无监督学习（聚类算法）**
+## 无监督学习（聚类算法）  
 *K均值（K-means clustering）聚类算法  
 *K-MEDOIDS算法  
 *CLARANS算法  
