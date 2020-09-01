@@ -41,8 +41,8 @@ object MovieALSReCommand {
         })
       })
 
-//    ratingRDD.take(8).foreach(println)
-//    return
+    //ratingRDD.take(8).foreach(println)
+    //return
 
     //将数据集划分成训练集和测试集; 80%作为训练集，20%作为测试集
     val Array(trainRDD, testRDD) = ratingRDD.randomSplit(Array(0.8, 0.2))
@@ -76,7 +76,7 @@ object MovieALSReCommand {
 
     //预测195 这个用户，对242这部电影的评分
     val predictRating = matrixMode.predict(196, 242)
-    println(predictRating)
+    println("预测196用户对242电影的评分：" + predictRating)
 
     //todo  为195这个用户，推荐5部电影
     /** 推荐结果
@@ -89,13 +89,12 @@ object MovieALSReCommand {
     val rmd1: Array[Rating] = matrixMode.recommendProducts(195, 5)
     rmd1.foreach(println)
 
-
     //todo  为所有用户推荐5部电影
     //RDD[(Int, Array[Rating])]   (用户id,给这个用户推荐的结果)
     val rmd2: RDD[(Int, Array[Rating])] = matrixMode.recommendProductsForUsers(5)
     //查看5个用户，给他们分别推荐了哪5部电影
     rmd2.take(5).foreach(t2 => {
-      println(s"userId=> ${t2._1}")
+      println(s"为所有用户推荐5部电影 userId=> ${t2._1}")
       t2._2.foreach(println)
       println("=============================================")
     })
@@ -110,7 +109,7 @@ object MovieALSReCommand {
     //RDD[(Int, Array[Rating])]  (产品id，这个产品推荐的5个用户)
     val rmd4: RDD[(Int, Array[Rating])] = matrixMode.recommendUsersForProducts(5)
     rmd4.take(5).foreach(t2 => {
-      println(s"productId ${t2._1}")
+      println(s"为所有电影，推荐5个用户 productId ${t2._1}")
       t2._2.foreach(println)
       println("==============================================")
     })
@@ -133,15 +132,18 @@ object MovieALSReCommand {
     val predictAndActualRatingRDD = predictRatingRDD2.join(actualRatingRDD)
       //取出(预测评分，实际评分)
       .map(_._2)
+    // 打印：(预测评分，实际评分)
+    predictAndActualRatingRDD.take(3).foreach(println)
+    println("==============================================")
 
     //导入回归模型评估器
     import org.apache.spark.mllib.evaluation.RegressionMetrics
     //创建回归模型评估器
     val metrics = new RegressionMetrics(predictAndActualRatingRDD)
 
-    println(s"RMSE:${metrics.rootMeanSquaredError}") //RMSE:1.0841210991552697
-    println(s"MSE:${metrics.meanSquaredError}") //MSE:1.1753185576336298
-
+    println("RMSE 均方根误差:" + metrics.rootMeanSquaredError)  // RMSE 均方根误差:1.081484357011266
+    println("MSE 均方误差:" + metrics.meanSquaredError)         // MSE 均方误差:1.1696084144600714
+    println("MAE 平均绝对误差:" + metrics.meanAbsoluteError)     // MAE 平均绝对误差:0.814539727196231
 
     sc.stop()
 
