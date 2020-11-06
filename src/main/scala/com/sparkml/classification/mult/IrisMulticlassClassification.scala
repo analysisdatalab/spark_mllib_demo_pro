@@ -12,6 +12,7 @@ import org.apache.spark.mllib.tree.model.RandomForestModel
 import org.apache.spark.mllib.tree.{DecisionTree, GradientBoostedTrees, RandomForest}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.util
 
 /**
  * 分类算法--多分类算法--鸢尾花案例
@@ -67,7 +68,7 @@ object IrisMulticlassClassification {
     //对多分类模型进行评估，可以使用准确率，精准率，召回率
     //准确率 预测正取的总数/需要预测的总数
     println("逻辑回归 准确率accuracy = " + lrMetrics.accuracy + "\t精确率weightedPrecision:"
-      + lrMetrics.weightedPrecision + "\t召回率weightedRecall" + lrMetrics.weightedRecall)
+      + lrMetrics.weightedPrecision + "\t召回率weightedRecall:" + lrMetrics.weightedRecall)
 
 
     //todo 使用决策树进行预测
@@ -78,10 +79,15 @@ object IrisMulticlassClassification {
     //对多分类模型进行评估，可以使用准确率，精准率，召回率
     //准确率 预测正取的总数/需要预测的总数
     println("决策树 准确率accuracy = " + dtMetrics.accuracy + "\t精确率weightedPrecision:"
-      + dtMetrics.weightedPrecision + "\t召回率weightedRecall" + dtMetrics.weightedRecall)
+      + dtMetrics.weightedPrecision + "\t召回率weightedRecall:" + dtMetrics.weightedRecall)
 
     //todo 使用随机森林进行预测
-    val rfModel: RandomForestModel = RandomForest.trainClassifier(trainRDD, labelMap.size, Map[Int, Int](), 5, "auto", "gini", 5, 2)
+    val rfModel: RandomForestModel = RandomForest.trainClassifier(
+      trainRDD,
+      labelMap.size,
+      Map[Int, Int](),
+      5,
+      "auto", "gini", 5, 2)
     //使用模型进行预测
     val rfPredictAndActualRDD: RDD[(Double, Double)] = testRDD.map { case LabeledPoint(label, features) => (rfModel.predict(features), label) }
     //需要多分类评估器，对模型进行评估
@@ -89,7 +95,7 @@ object IrisMulticlassClassification {
     //对多分类模型进行评估，可以使用准确率，精准率，召回率
     //准确率 预测正取的总数/需要预测的总数
     println("随机森林 准确率accuracy = " + rfMetrics.accuracy + "\t精确率weightedPrecision:"
-      + rfMetrics.weightedPrecision + "\t召回率weightedRecall" + rfMetrics.weightedRecall)
+      + rfMetrics.weightedPrecision + "\t召回率weightedRecall:" + rfMetrics.weightedRecall)
 
     //todo 贝叶斯算法进行预测
     val nbModel = NaiveBayes.train(trainRDD)
@@ -100,7 +106,7 @@ object IrisMulticlassClassification {
     //对多分类模型进行评估，可以使用准确率，精准率，召回率
     //准确率 预测正取的总数/需要预测的总数
     println("贝叶斯 准确率accuracy = " + nbMetrics.accuracy + "\t精确率weightedPrecision:"
-      + nbMetrics.weightedPrecision + "\t召回率weightedRecall" + nbMetrics.weightedRecall)
+      + nbMetrics.weightedPrecision + "\t召回率weightedRecall:" + nbMetrics.weightedRecall)
 
 
     spark.stop()
